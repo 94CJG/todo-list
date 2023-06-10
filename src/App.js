@@ -1,4 +1,4 @@
-//git pull로 다시 받아와서 재실행
+//username으로 브런치 생성
 import { useState } from 'react';
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
           <button>Add User Name</button>
         </div>
       </form>
-    
+
       {/* ToDolist 작성하는 곳 */}
       <div>
         <h2>add ToDo-List</h2>
