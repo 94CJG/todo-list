@@ -1,6 +1,8 @@
-//git pull로 다시 받아와서 재실행
-//2023.06.14 재시작
+//css 추가
+import styles from './Button.module.css';
+import style from './Reset.module.css';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function App() {
   // todo-list
@@ -19,6 +21,7 @@ function App() {
       return;
     }
     setList((addList) => [todo, ...addList]);
+    localStorage.setItem('list', JSON.stringify(list));
     setTodo('');
   };
   const onClick = (e) => {
@@ -29,6 +32,10 @@ function App() {
       })
     );
   };
+  useEffect(() => {
+    const storedList = JSON.parse(localStorage.getItem('list'));
+    setList(storedList || []);
+  }, []);
 
   // user
   const userOnChange = (e) => setUserName(e.target.value);
@@ -40,10 +47,10 @@ function App() {
     setUserSave((addUser) => [userName, ...addUser]);
     setUserName('');
   };
-  console.log(userSave);
+  console.log(list);
 
   return (
-    <div>
+    <div className={style.div}>
       <h1>Todo-list Practice !!</h1>
       {/* 사용자 이름 */}
       {userSave.length === 0 ? (
@@ -61,7 +68,7 @@ function App() {
         </form>
       ) : (
         <div>
-          <h2>User Name: {userSave[0]}</h2>
+          <h2 className={styles.userName}>User Name: {userSave[0]}</h2>
         </div>
       )}
 
@@ -72,6 +79,7 @@ function App() {
           <input
             onChange={onChange}
             value={todo}
+            className={styles.botBtn}
             id="list"
             type="text"
             placeholder="write your toDolist"
@@ -81,7 +89,7 @@ function App() {
       </div>
       <ul>
         {list.map((item, index) => (
-          <li key={index}>
+          <li key={index} className={styles.li}>
             {item}
             <button id={item} onClick={onClick}>
               ❌
@@ -94,3 +102,11 @@ function App() {
 }
 
 export default App;
+
+/** 질문
+ * chatGpt를 사용해서 useEffect를 사용 코드 적용함
+
+ * JSON.stringfy() 와 JSON.parse()의 차이점 및 사용처?
+ * useEffect를 왜 사용하여 새로고침시 초기화가 안될까?
+ * 로컬스토리지에 확인시 저장 값이 바로 안보인다.
+ */
